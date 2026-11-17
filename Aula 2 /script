@@ -1,0 +1,196 @@
+/* =========================================================
+   LABORATÓRIO 1 - Verificador de idade
+   ========================================================= */
+const campo = document.getElementById("idade");
+const saida = document.getElementById("resultado");
+
+document.getElementById("verificar").addEventListener("click", () => {
+  // 1) Lê o texto e remove espaços das pontas
+  const texto = campo.value.trim();
+
+  // 2) Campo vazio
+  if (texto === "") {
+    saida.textContent = "Informe a idade.";
+    return;
+  }
+
+  // 3) Converte e valida (inteiro entre 0 e 120)
+  const idade = Number(texto);
+  if (!Number.isInteger(idade) || idade < 0 || idade > 120) {
+    saida.textContent = "Idade inválida.";
+    return;
+  }
+
+  // 4) Decide a resposta
+  saida.textContent = idade >= 18 ? "Maior de idade" : "Menor de idade";
+});
+
+/* Testes obrigatórios:
+   17 -> Menor de idade | 18 -> Maior de idade | vazio -> Informe a idade
+   -2 -> Idade inválida | 18,5 -> Idade inválida */
+
+
+/* =========================================================
+   LABORATÓRIO 2 - Calculadora de média
+   ========================================================= */
+const saidaMedia = document.getElementById("resultadoMedia");
+
+document.getElementById("calcular").addEventListener("click", () => {
+  const t1 = document.getElementById("n1").value.trim();
+  const t2 = document.getElementById("n2").value.trim();
+  const t3 = document.getElementById("n3").value.trim();
+
+  // Campos vazios
+  if (t1 === "" || t2 === "" || t3 === "") {
+    saidaMedia.textContent = "Preencha as três notas.";
+    return;
+  }
+
+  // Conversão (aceita vírgula decimal, ex.: 7,5)
+  const n1 = Number(t1.replace(",", "."));
+  const n2 = Number(t2.replace(",", "."));
+  const n3 = Number(t3.replace(",", "."));
+
+  // Números inválidos ou fora do intervalo 0 a 10
+  if (
+    !Number.isFinite(n1) || !Number.isFinite(n2) || !Number.isFinite(n3) ||
+    n1 < 0 || n1 > 10 || n2 < 0 || n2 > 10 || n3 < 0 || n3 > 10
+  ) {
+    saidaMedia.textContent = "Notas inválidas. Use valores entre 0 e 10.";
+    return;
+  }
+
+  // Cálculo e classificação
+  const media = (n1 + n2 + n3) / 3;
+
+  if (media >= 6) {
+    saidaMedia.textContent = "Média " + media.toFixed(2) + " - Aprovado";
+  } else {
+    saidaMedia.textContent = "Média " + media.toFixed(2) + " - Recuperação";
+  }
+});
+
+/* Testes de fronteira: 0, 0, 0 -> 0,00 Recuperação
+                        6, 6, 6 -> 6,00 Aprovado
+                        10, 10, 10 -> 10,00 Aprovado */
+
+
+/* =========================================================
+   EXERCÍCIOS DE FIXAÇÃO
+   ========================================================= */
+
+// A. Par ou ímpar usando %
+const resA = document.getElementById("resA");
+document.getElementById("btnA").addEventListener("click", () => {
+  const texto = document.getElementById("numA").value.trim();
+  if (texto === "") {
+    resA.textContent = "Informe um número.";
+    return;
+  }
+  const numero = Number(texto);
+  if (!Number.isInteger(numero)) {
+    resA.textContent = "Informe um número inteiro.";
+    return;
+  }
+  if (numero % 2 === 0) {
+    resA.textContent = numero + " é par.";
+  } else {
+    resA.textContent = numero + " é ímpar.";
+  }
+});
+
+// B. Desconto de 10% para compras a partir de R$ 200
+const resB = document.getElementById("resB");
+document.getElementById("btnB").addEventListener("click", () => {
+  const texto = document.getElementById("valorB").value.trim();
+  if (texto === "") {
+    resB.textContent = "Informe o valor da compra.";
+    return;
+  }
+  const valor = Number(texto.replace(",", "."));
+  if (!Number.isFinite(valor) || valor < 0) {
+    resB.textContent = "Valor inválido.";
+    return;
+  }
+  if (valor >= 200) {
+    const total = valor * 0.9;
+    resB.textContent = "Desconto de 10% aplicado. Total: R$ " + total.toFixed(2);
+  } else {
+    resB.textContent = "Sem desconto. Total: R$ " + valor.toFixed(2);
+  }
+});
+
+// C. Controle de acesso com idade e cadastro ativo (&&)
+const resC = document.getElementById("resC");
+document.getElementById("btnC").addEventListener("click", () => {
+  const texto = document.getElementById("idadeC").value.trim();
+  if (texto === "") {
+    resC.textContent = "Informe a idade.";
+    return;
+  }
+  const idade = Number(texto);
+  if (!Number.isInteger(idade) || idade < 0 || idade > 120) {
+    resC.textContent = "Idade inválida.";
+    return;
+  }
+  const cadastroAtivo = document.getElementById("cadastroC").checked;
+
+  if (idade >= 18 && cadastroAtivo) {
+    resC.textContent = "Acesso liberado.";
+  } else if (idade < 18) {
+    resC.textContent = "Acesso negado: menor de idade.";
+  } else {
+    resC.textContent = "Acesso negado: cadastro inativo.";
+  }
+});
+
+// D. Saudação com nome informado pelo usuário
+const resD = document.getElementById("resD");
+document.getElementById("btnD").addEventListener("click", () => {
+  const nome = document.getElementById("nomeD").value.trim();
+  if (nome === "") {
+    resD.textContent = "Informe seu nome.";
+    return;
+  }
+  resD.textContent = "Olá, " + nome + "! Seja bem-vindo(a).";
+});
+
+// E. Classificação de temperatura
+const resE = document.getElementById("resE");
+document.getElementById("btnE").addEventListener("click", () => {
+  const texto = document.getElementById("tempE").value.trim();
+  if (texto === "") {
+    resE.textContent = "Informe a temperatura.";
+    return;
+  }
+  const temp = Number(texto.replace(",", "."));
+  if (!Number.isFinite(temp)) {
+    resE.textContent = "Temperatura inválida.";
+    return;
+  }
+  if (temp < 15) {
+    resE.textContent = "Frio";
+  } else if (temp <= 25) {
+    resE.textContent = "Agradável";
+  } else if (temp <= 35) {
+    resE.textContent = "Quente";
+  } else {
+    resE.textContent = "Muito quente";
+  }
+});
+
+// F. Validação de notas entre 0 e 10
+const resF = document.getElementById("resF");
+document.getElementById("btnF").addEventListener("click", () => {
+  const texto = document.getElementById("notaF").value.trim();
+  if (texto === "") {
+    resF.textContent = "Informe a nota.";
+    return;
+  }
+  const nota = Number(texto.replace(",", "."));
+  if (!Number.isFinite(nota) || nota < 0 || nota > 10) {
+    resF.textContent = "Nota inválida. Use um valor entre 0 e 10.";
+    return;
+  }
+  resF.textContent = "Nota válida: " + nota;
+});
